@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 세션 (출석 회차)
+model Session {
+  id            Int      @id @default(autoincrement())
+  sessionNumber Int      @unique // 회차 번호
+  date          String   // 날짜
+  startTime     DateTime // 시작 시간
+  endTime       DateTime // 종료 시간
+  isActive      Boolean  @default(true) // 진행 중 여부
+  qrCode        String?  // QR 코드 데이터
+  createdAt     DateTime @default(now())
+  
+  attendances   Attendance[]
+}
+
+// 출석 기록
+model Attendance {
+  id           Int      @id @default(autoincrement())
+  walletAddress String  // 지갑 주소
+  sessionId    Int      // 세션 ID
+  tokenId      String?  // NFT 토큰 ID (발급 후)
+  timestamp    DateTime @default(now())
+  
+  session      Session  @relation(fields: [sessionId], references: [id])
+  
+  @@unique([walletAddress, sessionId]) // 세션당 1회만 출석 가능
+}
+
+// 관리자 주소
+model Admin {
+  id            Int      @id @default(autoincrement())
+  walletAddress String   @unique
+  createdAt     DateTime @default(now())
+}
