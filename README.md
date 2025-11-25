@@ -45,6 +45,7 @@ DATABASE_URL="file:./dev.db"              # SQLite 파일 경로
 RPC_URL="https://sepolia.base.org"        # Base Sepolia RPC 엔드포인트
 NFT_CONTRACT_ADDRESS="0x..."              # 배포한 NFT 컨트랙트 주소
 NFT_MINTER_PRIVATE_KEY="0x..."            # 민팅 지갑의 개인키 (절대 커밋 금지)
+ADMIN_WALLET_ADDRESS="0x..."              # 기본 관리자 지갑 주소 (시드로 자동 추가)
 ```
 
 기본 값 그대로 사용해도 로컬 개발은 가능합니다. 계약 주소·키는 실제 민팅을 테스트할 때 본인 값으로 교체하세요.
@@ -60,6 +61,12 @@ npx prisma generate
 ```
 
 ### 4. 관리자 계정 설정
+
+`ADMIN_WALLET_ADDRESS`를 `.env`에 지정한 뒤 시드를 실행하면 기본 관리자 지갑이 자동으로 추가됩니다:
+
+```bash
+npx prisma db seed
+```
 
 관리자 지갑 주소가 이미 데이터베이스에 등록되어 있습니다:
 
