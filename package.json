@@ -1,16 +1,17 @@
 {
-  "name": "web3-login",
+  "name": "web3-attendance-system",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "DATABASE_URL=\"file:./prisma/dev.db\" prisma generate && next build",
+    "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "DATABASE_URL=\"file:./prisma/dev.db\" prisma generate"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
+    "@vercel/postgres": "^0.10.0",
     "dotenv": "^17.2.3",
     "ethers": "^6.15.0",
     "next": "16.0.3",
