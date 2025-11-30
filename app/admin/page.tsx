@@ -15,6 +15,7 @@ interface Session {
   qrCode: string;
   accessCode?: string;
   attendeeCount?: number;
+  capacity?: number;
 }
 
 interface Stats {
