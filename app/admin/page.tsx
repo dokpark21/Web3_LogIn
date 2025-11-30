@@ -175,9 +175,10 @@ export default function AdminPage() {
       const startDate = new Date(`${sessionForm.date}T${sessionForm.startTime}:00`);
       const endDate = new Date(startDate.getTime() + sessionForm.duration * 60000);
 
-      // QR 코드 생성
-      const sessionUrl = `${window.location.origin}/attendance/${accessCode}`;
-      const qrDataUrl = await QRCode.toDataURL(sessionUrl, {
+      // QR 코드 생성 - MetaMask 브라우저로 열리도록 딥링크 사용
+      const targetUrl = `${window.location.origin}/attendance/${accessCode}`;
+      const metamaskUrl = `https://metamask.app.link/dapp/${window.location.host}/attendance/${accessCode}`;
+      const qrDataUrl = await QRCode.toDataURL(metamaskUrl, {
         width: 400,
         margin: 2,
         color: {
