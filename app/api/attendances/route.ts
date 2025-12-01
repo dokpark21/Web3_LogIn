@@ -110,7 +110,8 @@ export async function POST(request: NextRequest) {
 
     // 다음 토큰 ID 조회 (민팅 전)
     const nextTokenId = await contract.nextTokenId();
-
+    
+    console.log("check point1");
     const metadata = {
       name: `Attendance #${session.sessionNumber}`,
       description: `Attendance NFT for session ${session.sessionNumber} on ${session.date}`,
@@ -125,9 +126,13 @@ export async function POST(request: NextRequest) {
       JSON.stringify(metadata)
     ).toString('base64')}`;
 
+    console.log("check point2");
+
     // 온체인 민팅
     const tx = await contract.mintAttendance(walletAddress, metadataUri);
     const receipt = await tx.wait();
+
+    console.log("check point3");
 
     // 출석 기록 생성
     const attendance = await prisma.attendance.create({
@@ -144,6 +149,8 @@ export async function POST(request: NextRequest) {
         session: true,
       },
     });
+
+    console.log("Attendance created:", attendance);
 
     return NextResponse.json(attendance, { status: 201 });
   } catch (error) {
