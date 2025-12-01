@@ -159,6 +159,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ error: 'Failed to create attendance' }, { status: 500 });
+    // 상세한 에러 정보 반환
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    console.error('Detailed error:', {
+      message: errorMessage,
+      rpcUrl: rpcUrl ? 'configured' : 'missing',
+      contractAddress: contractAddress ? 'configured' : 'missing',
+      minterPrivateKey: minterPrivateKey ? 'configured' : 'missing',
+    });
+
+    return NextResponse.json({ 
+      error: 'Failed to create attendance',
+      details: errorMessage 
+    }, { status: 500 });
   }
 }
